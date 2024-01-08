@@ -38,7 +38,7 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass.set("jp.ac.uryukyu.ie.e235733.App")
+    mainClass.set("Main")
 }
 
 tasks.named<Test>("test") {
@@ -48,6 +48,6 @@ tasks.named<Test>("test") {
 
 tasks.withType<Jar> {
     manifest {
-        attributes["Main-Class"] = "jp.ac.uryukyu.ie.tnal.App"
+        attributes["Main-Class"] = "Main"
     }
 }
