@@ -7,13 +7,25 @@ public class AddMan {
     Random rand = new Random();
 
     long donating = 0;//総寄付額
-    long stock = 0;//総貯蓄額
+    long stock;//総貯蓄額
 
-    long nextWage = 10000;//次の給与、計算の答え
-    long lastWage = 10000;//前の給与
+    long nextWage;//次の給与、計算の答え
+    long lastWage;//前の給与
 
-    public AddMan(String _name){
+    long raise;
+    long raiseBase;
+    long raiseBound;
+
+    Costing cost;
+    long amount;
+
+    public AddMan(String _name, long _stock, long _firstWage, long _raiseBase, long _raiseBound, Costing _cost){
         this.name = _name;
+        this.stock = _stock;
+        this.lastWage= _firstWage;
+        this.raiseBase = _raiseBase;
+        this.raiseBound = _raiseBound;
+        this.cost = _cost;
     }
 
     public long getStock(){
@@ -25,16 +37,14 @@ public class AddMan {
     }
 
     public void Work(){
-        long raise = 1000 + rand.nextLong(1000);
-        //次の昇給額の設定。min:1000, max:1999 
+        this.raise = raiseBase + rand.nextLong(raiseBound);
+        //次の昇給額の設定。min:raiseBase , max:raiseBase + raiseBound
 
-        this.nextWage = this.lastWage + raise;
-        //（次の給与）＝（前の給与）＋（昇給額）
-        System.out.println(this.lastWage + " + " + raise + " ?");
+        System.out.println(this.lastWage + " + " + this.raise + " ?");
         //次の給与の計算式
-    }
 
-    public void Calculate(){
+        this.nextWage = this.lastWage + this.raise;
+        //（次の給与）＝（前の給与）＋（昇給額）
         System.out.println("値を入力してください");
 
         System.out.println(this.nextWage);
@@ -49,6 +59,7 @@ public class AddMan {
             System.out.println("クビになった。");
         }
         */
+
     }
 
     public void Donate(){
@@ -65,5 +76,25 @@ public class AddMan {
 
         System.out.println(this.name + " は貯蓄に回した。");
         System.out.println("現在の貯蓄額: ¥ " + this.stock);
+    }
+
+    public void Live(){
+        this.amount = cost.getNextCosting();
+
+        this.stock -= this.amount;
+        System.out.println("¥ " + amount + " の出費！");
+        System.out.println("現在の貯蓄額: ¥ " + this.stock);
+
+        cost.setLastCosting(this.amount);
+        cost.CalcCost();
+    }
+
+    //for CalcBot
+    public long thinkBest(){
+        return this.stock + this.lastWage + this.raiseBase + this.raiseBound; 
+    }
+
+    public long thinkNextCosting(){
+        return this.cost.getNextCosting();
     }
 }
