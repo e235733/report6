@@ -1,5 +1,4 @@
-import jp.Solver;
-import jp.ac.CalcBot;
+import jp.GameMaster;
 import jp.ac.uryukyu.ie.AddMan;
 import jp.ac.uryukyu.ie.MultiMan;
 import jp.ac.uryukyu.ie.e235733.Costing;
@@ -13,12 +12,10 @@ public class Main {
         CalcMan addMan = new AddMan("太郎", 20000, 10000, 2000, 2000, costing1);
         CalcMan multiMan = new MultiMan("次郎", 30000, 33, costing2);
 
-        CalcBot calcBot = new CalcBot();
-
-        Solver game = new Solver();
-
-        game.Play(addMan, calcBot);
-        game.Play(multiMan, calcBot);
+        GameMaster game = new GameMaster();
+        
+        game.Play(addMan);
+        game.Play(multiMan);
         
     }
 }
