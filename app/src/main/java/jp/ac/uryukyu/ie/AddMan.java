@@ -1,28 +1,31 @@
-package jp.ac.uryukyu.ie.e235733;
+package jp.ac.uryukyu.ie;
 
 import java.util.Random;
 
-public class AddMan {
+import jp.ac.uryukyu.ie.e235733.Costing;
+import jp.ac.uryukyu.ie.e235733.CalcMan;
+
+public class AddMan extends CalcMan{
     String name;
     Random rand = new Random();
 
     long donating = 0;//総寄付額
     long stock;//総貯蓄額
 
-    long nextWage;//次の給与、計算の答え
-    long lastWage;//前の給与
+    long nextIncome;//次の給与、計算の答え
+    long lastIncome;//前の給与
+
+    Costing cost;
+    long amount;
 
     long raise;
     long raiseBase;
     long raiseBound;
 
-    Costing cost;
-    long amount;
-
-    public AddMan(String _name, long _stock, long _firstWage, long _raiseBase, long _raiseBound, Costing _cost){
+    public AddMan(String _name, long _stock, long _baseIncome, long _raiseBase, long _raiseBound, Costing _cost){
         this.name = _name;
         this.stock = _stock;
-        this.lastWage= _firstWage;
+        this.lastIncome = _baseIncome;
         this.raiseBase = _raiseBase;
         this.raiseBound = _raiseBound;
         this.cost = _cost;
@@ -36,23 +39,24 @@ public class AddMan {
         return this.donating;
     }
 
+    @Override
     public void Work(){
         this.raise = raiseBase + rand.nextLong(raiseBound);
         //次の昇給額の設定。min:raiseBase , max:raiseBase + raiseBound
 
-        System.out.println(this.lastWage + " + " + this.raise + " ?");
+        System.out.println(this.lastIncome + " + " + this.raise + " ?");
         //次の給与の計算式
 
-        this.nextWage = this.lastWage + this.raise;
+        this.nextIncome = this.lastIncome + this.raise;
         //（次の給与）＝（前の給与）＋（昇給額）
         System.out.println("値を入力してください");
 
-        System.out.println(this.nextWage);
+        System.out.println(this.nextIncome);
         //本当は値を入力させたいけどできないため確実に正解する
 
-        //if (nextWage == answer){
-            System.out.println("Good Job! 太郎は ¥ " + this.nextWage + " 稼いだ。");
-            this.lastWage = this.nextWage;
+        //if (nextIncome == answer){
+            System.out.println("Good Job! 太郎は ¥ " + this.nextIncome + " 稼いだ。");
+            this.lastIncome = this.nextIncome;
         //}
 
         /*else {
@@ -63,7 +67,7 @@ public class AddMan {
     }
 
     public void Donate(){
-        this.donating += this.lastWage;
+        this.donating += this.lastIncome;
         //総寄付額に前の給与分が足される
 
         System.out.println(this.name + " は寄付した。");
@@ -71,7 +75,7 @@ public class AddMan {
     }
 
     public void Stock(){
-        this.stock += this.lastWage;
+        this.stock += this.lastIncome;
         //貯蓄額に前の給与分が足される
 
         System.out.println(this.name + " は貯蓄に回した。");
@@ -90,8 +94,9 @@ public class AddMan {
     }
 
     //for CalcBot
+    @Override
     public long thinkBest(){
-        return this.stock + this.lastWage + this.raiseBase + this.raiseBound; 
+        return this.stock + this.lastIncome + this.raiseBase + this.raiseBound; 
     }
 
     public long thinkNextCosting(){

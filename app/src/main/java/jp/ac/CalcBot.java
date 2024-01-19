@@ -1,19 +1,19 @@
 package jp.ac;
 
-import jp.ac.uryukyu.ie.e235733.AddMan;
+import jp.ac.uryukyu.ie.e235733.CalcMan;
 
 public class CalcBot {
-    public void Select(AddMan addMan){
-        if (addMan.getStock() >= addMan.thinkNextCosting()){
-            addMan.Donate();
+    public void Select(CalcMan calcMan){
+        if (calcMan.getStock() >= calcMan.thinkNextCosting()){
+            calcMan.Donate();
         }
 
-        else if (addMan.thinkBest() < addMan.thinkNextCosting()){
-            addMan.Donate();
+        else if (calcMan.thinkBest() < calcMan.thinkNextCosting()){
+            calcMan.Donate();
         }
 
         else {
-            addMan.Stock();
+            calcMan.Stock();
         }
     }
 }
