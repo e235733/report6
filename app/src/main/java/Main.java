@@ -10,7 +10,7 @@ public class Main {
         Costing costing2 = new Costing(1000, 2.3);
 
         CalcMan addMan = new AddMan("太郎", 20000, 10000, 2000, 2000, costing1);
-        CalcMan multiMan = new MultiMan("次郎", 30000, 33, costing2);
+        CalcMan multiMan = new MultiMan("次郎", 30000, 3, costing2);
 
         GameMaster game = new GameMaster();
         

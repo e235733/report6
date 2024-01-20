@@ -107,24 +107,25 @@ public class MultiMan extends CalcMan{
         this.setNextIncrease();
 
         System.out.println(this.lastIncome + " * " + this.increase + " ?");
-        //次の給与の計算式
 
         this.nextIncome = this.lastIncome * this.increase;
         //（次の給与）＝（前の給与）*（昇給額）
+        //this.Input();
 
-        this.Input();
+        System.out.println(this.nextIncome);
 
-        if (this.nextIncome == this.input){
+        //if (this.nextIncome == this.input){
             System.out.println("Good Job! " + this.name + " ¥ " + this.nextIncome + " 稼いだ。");
             this.lastIncome = this.nextIncome;
 
-            this.Select();
-        }
+            //this.Select();
+            this.SelectBot();
+        /* }
 
         else {
             System.out.println("会社が倒産した。" + this.name + "は再起業した。");
             this.lastIncome = this.baseIncome;
-        }
+        } */
     }
 
     public void Donate(){
@@ -164,9 +165,9 @@ public class MultiMan extends CalcMan{
         cost.CalcCost();
     }
 
-    //for CalcBot
+    //for SelectBot
     /**
-     * CalcBotが期待される最高額の貯蓄額を得るメソッド/
+     * SelectBotが期待される最高額の貯蓄額を得るメソッド/
      * (現在の貯蓄) + (前の収入) * (最高倍率:19)
      * @return 貯蓄の最高期待額
      */
@@ -177,5 +178,19 @@ public class MultiMan extends CalcMan{
 
     public long thinkNextCosting(){
         return this.cost.getNextCosting();
+    }
+
+    public void SelectBot(){
+        if (this.getStock() >= this.thinkNextCosting()){
+            this.Donate();
+        }
+
+        else if (this.thinkBest() < this.thinkNextCosting()){
+            this.Donate();
+        }
+
+        else {
+            this.Stock();
+        }
     }
 }

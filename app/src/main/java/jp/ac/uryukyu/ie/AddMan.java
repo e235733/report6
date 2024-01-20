@@ -127,21 +127,23 @@ public class AddMan extends CalcMan{
         this.raise = raiseBase + rand.nextLong(raiseBound);
 
         System.out.println(this.lastIncome + " + " + this.raise + " ?");
-        this.Input();
-
         this.nextIncome = this.lastIncome + this.raise;
+        //this.Input();
 
-        if (this.nextIncome == this.input){
+        System.out.println(this.nextIncome);
+
+        //if (this.nextIncome == this.input){ 
             System.out.println("Good Job! " + this.name + " ¥ " + this.nextIncome + " 稼いだ。");
             this.lastIncome = this.nextIncome;
 
-            this.Select();
-        }
+        //    this.Select();
+            this.SelectBot();
+        /* }
 
         else {
             System.out.println("クビになった。" + this.name + "は再就職した。");
             this.lastIncome = this.baseIncome;
-        }
+        } */
     }
 
     public void Live(){
@@ -155,9 +157,9 @@ public class AddMan extends CalcMan{
         cost.CalcCost();
     }
 
-    //for CalcBot
+    //for SelectBot
     /**
-     * CalcBotが期待される最高額の貯蓄額を得るメソッド/
+     * SelectBotが期待される最高額の貯蓄額を得るメソッド/
      * (現在の貯蓄) + (前の収入) + (昇給の最高額)
      * @return 貯蓄の最高期待額
      */
@@ -168,5 +170,19 @@ public class AddMan extends CalcMan{
 
     public long thinkNextCosting(){
         return this.cost.getNextCosting();
+    }
+
+    public void SelectBot(){
+        if (this.getStock() >= this.thinkNextCosting()){
+            this.Donate();
+        }
+
+        else if (this.thinkBest() < this.thinkNextCosting()){
+            this.Donate();
+        }
+
+        else {
+            this.Stock();
+        }
     }
 }

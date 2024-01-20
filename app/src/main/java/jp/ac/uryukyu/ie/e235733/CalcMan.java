@@ -113,14 +113,31 @@ public abstract class CalcMan {
         cost.CalcCost();
     }
 
-    //for CalcBot
+    //for SelectBot
     public abstract long thinkBest();
 
     /**
-     * CalcBotが次のコストを得るためのメソッド
+     * SelectBotが次のコストを得るためのメソッド
      * @return 次のコスト
      */
     public long thinkNextCosting(){
         return this.cost.getNextCosting();
+    }
+
+    /**
+     * 貯蓄と収入の予想から寄付・貯蓄を選択するメソッド
+     */
+    public void SelectBot(){
+        if (this.getStock() >= this.thinkNextCosting()){
+            this.Donate();
+        }
+
+        else if (this.thinkBest() < this.thinkNextCosting()){
+            this.Donate();
+        }
+
+        else {
+            this.Stock();
+        }
     }
 }
