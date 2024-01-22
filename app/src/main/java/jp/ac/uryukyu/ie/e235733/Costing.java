@@ -5,7 +5,6 @@ package jp.ac.uryukyu.ie.e235733;
  */
 public class Costing {
     double inflation ;
-
     long lastCosting;
     long nextCosting;
 
@@ -30,9 +29,7 @@ public class Costing {
      * 次のコストを計算するメソッド
      * (次のコスト) = (前のコスト) * (インフレ率)
      */
-    public void CalcCost(){
+    public void calcCost(){
         this.nextCosting = (long) (this.lastCosting * inflation);
-
     }
-
 }

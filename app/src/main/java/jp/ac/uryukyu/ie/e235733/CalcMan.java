@@ -12,15 +12,11 @@ public abstract class CalcMan {
     String name;
     Random rand = new Random();
     Scanner sc = new Scanner(System.in);
-
     long input;
-
     long donating = 0;//総寄付額
     long stock;//総貯蓄額
-
     long nextIncome;//次の給与、計算の答え
     long lastIncome;//前の給与
-
     Costing cost;
     long amount;
 
@@ -49,7 +45,7 @@ public abstract class CalcMan {
      * 数値を入力し、inputに保存される/
      * long型のみ有効。それ以外はもう一度入力させられる
      */
-    public void Input(){
+    public void input(){
         while (true){
             try {
                 System.out.println("値を入力してください");
@@ -66,54 +62,45 @@ public abstract class CalcMan {
      * long型の1と2のみ有効。それ以外は再度入力/
      * 1: 寄付する, 2: 貯蓄する
      */
-    public void Select(){
+    public void select(){
         System.out.println("寄付する:1, 貯蓄する:2");
-        this.Input();
-
+        this.input();
         if (this.input == 1){
-            this.Donate();
+            this.donate();
         }
-
         else if (this.input == 2){
-            this.Stock();
+            this.stock();
         }
-
         else {
-            this.Select();
+            this.select();
         }
     }
 
-    public abstract void Work();
+    public abstract void work();
 
     /**
      * 収入を寄付するメソッド
      * 総寄付額に収入額が足される
      */
-    public void Donate(){
+    public void donate(){
         this.donating += this.lastIncome;
-        //総寄付額に前の給与分が足される
-
         System.out.println(this.name + " は寄付した。");
-        System.out.println("現在の総寄付額: ¥ " + this.donating);
     }
 
-    public abstract void Stock();
+    public abstract void stock();
 
     /**
      * 貯蓄から生活コストが引かれるメソッド
      */
-    public void Live(){
+    public void live(){
         this.amount = cost.getNextCosting();
-
         this.stock -= this.amount;
         System.out.println("¥ " + amount + " の出費！");
-        System.out.println("現在の貯蓄額: ¥ " + this.stock);
-
         cost.setLastCosting(this.amount);
-        cost.CalcCost();
+        cost.calcCost();
     }
 
-    //for SelectBot
+    //for selectBot
     public abstract long thinkBest();
 
     /**
@@ -127,17 +114,15 @@ public abstract class CalcMan {
     /**
      * 貯蓄と収入の予想から寄付・貯蓄を選択するメソッド
      */
-    public void SelectBot(){
+    public void selectBot(){
         if (this.getStock() >= this.thinkNextCosting()){
-            this.Donate();
+            this.donate();
         }
-
         else if (this.thinkBest() < this.thinkNextCosting()){
-            this.Donate();
+            this.donate();
         }
-
         else {
-            this.Stock();
+            this.stock();
         }
     }
 }

@@ -16,19 +16,14 @@ public class AddMan extends CalcMan{
     String name;
     Random rand = new Random();
     Scanner sc = new Scanner(System.in);
-
     long input;
-
     long donating = 0;//総寄付額
     long stock;//総貯蓄額
-
     long baseIncome;
     long nextIncome;//次の給与、計算の答え
     long lastIncome;//前の給与
-
     Costing cost;
     long amount;
-
     long raise;
     long raiseBase;
     long raiseBound;
@@ -48,7 +43,6 @@ public class AddMan extends CalcMan{
         this.raiseBase = _raiseBase;
         this.raiseBound = _raiseBound;
         this.cost = _cost;
-
         this.lastIncome = _baseIncome;
     }
 
@@ -64,12 +58,9 @@ public class AddMan extends CalcMan{
         return this.name;
     }
 
-    public void Donate(){
+    public void donate(){
         this.donating += this.lastIncome;
-        //総寄付額に前の給与分が足される
-
         System.out.println(this.name + " は寄付した。");
-        System.out.println("現在の総寄付額: ¥ " + this.donating);
     }
 
     /**
@@ -77,15 +68,12 @@ public class AddMan extends CalcMan{
      * 貯蓄額に収入額が足される/
      * MultiManとは違い貯蓄に回しても収入はリセットされない
      */
-    public void Stock(){
+    public void stock(){
         this.stock += this.lastIncome;
-        //貯蓄額に前の給与分が足される
-
         System.out.println(this.name + " は貯蓄に回した。");
-        System.out.println("現在の貯蓄額: ¥ " + this.stock);
     }
 
-    public void Input(){
+    public void input(){
         while (true){
             try {
                 System.out.println("値を入力してください");
@@ -97,20 +85,17 @@ public class AddMan extends CalcMan{
         }
     }
 
-    public void Select(){
+    public void select(){
         System.out.println("寄付する:1, 貯蓄する:2");
-        this.Input();
-
+        this.input();
         if (this.input == 1){
-            this.Donate();
+            this.donate();
         }
-
         else if (this.input == 2){
-            this.Stock();
+            this.stock();
         }
-
         else {
-            this.Select();
+            this.select();
         }
     }
 
@@ -123,41 +108,31 @@ public class AddMan extends CalcMan{
      * 次の収入が前の収入となる
      */
     @Override
-    public void Work(){
+    public void work(){
         this.raise = raiseBase + rand.nextLong(raiseBound);
-
         System.out.println(this.lastIncome + " + " + this.raise + " ?");
         this.nextIncome = this.lastIncome + this.raise;
-        //this.Input();
-
-        System.out.println(this.nextIncome);
-
-        //if (this.nextIncome == this.input){ 
-            System.out.println("Good Job! " + this.name + " ¥ " + this.nextIncome + " 稼いだ。");
+        this.input();
+        if (this.nextIncome == this.input){ 
+            System.out.println("Good Job! " + this.name + "は ¥ " + this.nextIncome + " 稼いだ。");
             this.lastIncome = this.nextIncome;
-
-        //    this.Select();
-            this.SelectBot();
-        /* }
-
+            this.select();
+        }
         else {
             System.out.println("クビになった。" + this.name + "は再就職した。");
             this.lastIncome = this.baseIncome;
-        } */
+        } 
     }
 
-    public void Live(){
-        this.amount = cost.getNextCosting();
-
+    public void live(){
+        this.amount = this.cost.getNextCosting();
         this.stock -= this.amount;
-        System.out.println("¥ " + amount + " の出費！");
-        System.out.println("現在の貯蓄額: ¥ " + this.stock);
-
+        System.out.println("¥ " + this.amount + " の出費！");
         cost.setLastCosting(this.amount);
-        cost.CalcCost();
+        cost.calcCost();
     }
 
-    //for SelectBot
+    //for selectBot
     /**
      * SelectBotが期待される最高額の貯蓄額を得るメソッド/
      * (現在の貯蓄) + (前の収入) + (昇給の最高額)
@@ -172,17 +147,15 @@ public class AddMan extends CalcMan{
         return this.cost.getNextCosting();
     }
 
-    public void SelectBot(){
+    public void selectBot(){
         if (this.getStock() >= this.thinkNextCosting()){
-            this.Donate();
+            this.donate();
         }
-
         else if (this.thinkBest() < this.thinkNextCosting()){
-            this.Donate();
+            this.donate();
         }
-
         else {
-            this.Stock();
+            this.stock();
         }
     }
 }
